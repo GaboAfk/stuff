@@ -9,7 +9,7 @@ if [[ "$prototype" == *";" ]]; then
 	prototype="${prototype%;}"
 fi
 
-proc=$(echo "$prototype" | sed 's/^[^ ]* \?\*//; s/([^)]*)//')
+proc=$(echo "$prototype" | sed 's/^[^ ]* //; s/^\*//; s/([^()].*//')
 
 
 echo 'function description?'
