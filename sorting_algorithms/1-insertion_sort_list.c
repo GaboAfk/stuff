@@ -4,6 +4,7 @@
  */
 
 #include "sort.h"
+#include <stdio.h>
 /**
  * swap - auxiliary function that swap double linked nodes
  * @a: double node to swap with @b
@@ -13,7 +14,7 @@ void swap(listint_t *a, listint_t *b)
 {
 	a->next = b->next;
 	if (b->next)
-	b->next->prev = a;
+		b->next->prev = a;
 
 	b->next = a;
 
@@ -23,6 +24,7 @@ void swap(listint_t *a, listint_t *b)
 
 	a->prev = b;
 }
+
 /**
  * insertion_sort_list - function that sorts a doubly linked list of
  *				integers in ascending order using the Insertion sort algorithm
@@ -35,22 +37,25 @@ void insertion_sort_list(listint_t **list)
 	if (!list)
 		return;
 
-	while (p)
+	while (p && p->next)
 	{
-		if (p->next && p->next->n < p->n)
+		if (p->n > p->next->n)
 		{
+			if (!p->prev)
+				*list = p->next;
 			swap(p, p->next);
 			print_list(*list);
 
-		aux = p->prev;
-		while (aux)
-		{
-			if (aux->prev && aux->prev->n > aux->n)
+			aux = p->prev;
+			while (aux && aux->prev && aux->prev->n > aux->n)
+			{
 				swap(aux->prev, aux);
+				if (!aux->prev)
+					*list = aux;
 				print_list(*list);
-				aux = aux->prev;
+			}
 		}
-		}
-		p = p->next;
+		else
+			p = p->next;
 	}
 }
