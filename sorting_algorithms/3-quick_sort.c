@@ -17,9 +17,8 @@ void recursion_quick(int *array, size_t start, size_t end, size_t size)
 	size_t i = start, j;
 	int temp, pivot;
 
-	if (!array || end < start)
+	if (end < start || end == start)
 		return;
-
 	pivot = array[end];
 	for (j = start; j < end; j++)
 	{
@@ -43,10 +42,9 @@ void recursion_quick(int *array, size_t start, size_t end, size_t size)
 		array[j] = temp;
 		print_array(array, size);
 	}
-	if (i - 1 > start && i > start)
+	if (i > 0)
 		recursion_quick(array, start, i - 1, size);
-	if (i + 1 < end)
-		recursion_quick(array, i + 1, end, size);
+	recursion_quick(array, i + 1, end, size);
 }
 /**
  * quick_sort - function that sorts an array of integers in ascending
