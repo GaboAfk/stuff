@@ -4,7 +4,50 @@
 */
 
 #include "sort.h"
+#include <stdio.h>
+/**
+ * recursion_quick - auxiliary function that gets a delimited array and sort it
+ * @array: array to sort
+ * @start: begining of @array
+ * @end: end of @array
+ * @size: size of @array
+ */
+void recursion_quick(int *array, size_t start, size_t end, size_t size)
+{
+	size_t i = start, j;
+	int temp, pivot;
 
+	if (!array || end < start)
+		return;
+
+	pivot = array[end];
+	for (j = start; j < end; j++)
+	{
+
+		if (array[j] < pivot)
+		{
+			if (j != i)
+			{
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+				print_array(array, size);
+			}
+			i++;
+		}
+	}
+	if (i != j)
+	{
+		temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+		print_array(array, size);
+	}
+	if (i - 1 > start && i > start)
+		recursion_quick(array, start, i - 1, size);
+	if (i + 1 < end)
+		recursion_quick(array, i + 1, end, size);
+}
 /**
  * quick_sort - function that sorts an array of integers in ascending
  *					order using the Quick sort algorithm
@@ -13,36 +56,8 @@
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t i, j = -1;
-	int temp, pivot, *greaters;
-
 	if (!array || !size)
 		return;
-
-	pivot = array[size - 1];
-
-	for (i = 0; i < size - 1; i++)
-	{
-		if (array[i] < pivot)
-		{
-			j++;
-			if (i > 0)
-			{
-				temp = array[j];
-				array[j] = array[i];
-				array[i] = temp;
-				print_array(array, size);
-			}
-		}
-	}
-	j++;
-	temp = array[j];
-	array[j] = array[i];
-	array[i] = temp;
-	print_array(array, size);
-
-
-	quick_sort(array, j);
-	greaters = &array[size - j];
-	quick_sort(greaters, size - j - 1);
+	recursion_quick(array, 0, size - 1, size);
 }
+
